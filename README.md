@@ -6,6 +6,8 @@ Zero dependencies. No build step. Just a `<script>` tag and a custom element.
 
 Demo: [https://pdelboca.me/bloom-highlight/](https://pdelboca.me/bloom-highlight/)
 
+Disclaimer: Migrated to Web Components using AI.
+
 ## Install
 
 Use directly via a `<script>` tag:
