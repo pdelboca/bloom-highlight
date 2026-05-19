@@ -4,6 +4,8 @@ A vanilla Web Component that adds hand-drawn, squiggly highlight effects to any 
 
 Zero dependencies. No build step. Just a `<script>` tag and a custom element.
 
+Demo: [https://pdelboca.me/bloom-highlight/](https://pdelboca.me/bloom-highlight/)
+
 ## Install
 
 Use directly via a `<script>` tag:
