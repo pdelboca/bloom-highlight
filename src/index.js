@@ -35,33 +35,33 @@ function getSharedSheet() {
         --bloom-tip: square;
         /* --bloom-gradient is unset by default (no gradient) */
 
+        /* type line is the default */
         position: relative;
+        display: inline;
+      }
+      /* box mode overrides */
+      :host([type="box"]) {
         display: inline-block;
         width: fit-content;
         isolation: isolate;
       }
-      :host([type="line"]) {
-        display: inline;
-        width: auto;
-        isolation: normal;
-      }
       .svg-layer {
         pointer-events: none;
-      }
-      /* box-mode: SVG layer is absolutely positioned over the host */
-      :host(:not([type="line"])) .svg-layer {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 0;
-      }
-      /* line-mode: zero-sized anchor for absolutely-positioned SVGs */
-      :host([type="line"]) .svg-layer {
+        /* line-mode (default): zero-sized anchor for absolutely-positioned SVGs */
         display: inline-block;
         width: 0;
         height: 0;
         overflow: visible;
         position: relative;
+        z-index: 0;
+      }
+      /* box-mode: SVG layer is absolutely positioned over the host */
+      :host([type="box"]) .svg-layer {
+        display: unset;
+        width: unset;
+        position: absolute;
+        top: 0;
+        left: 0;
         z-index: 0;
       }
       .text-layer {
