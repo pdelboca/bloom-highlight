@@ -145,6 +145,15 @@ bloom-highlight.primary {
 
 This is &lt;bloom-highlight class="primary"&gt;highlighted&lt;/bloom-highlight&gt; text.</code></pre>
 
+      <h2>Line mode</h2>
+      <p>
+        Line mode is the default and wraps each line of text individually.
+        <bloom-highlight class="primary">This means the highlight bends and breaks naturally across line boundaries,</bloom-highlight>
+        just like a real highlighter pen would on paper.
+        <bloom-highlight class="secondary">You can mix different variants in the same paragraph to draw attention to distinct ideas.</bloom-highlight>
+        Each variant is a plain CSS class, so they are easy to define and extend.
+      </p>
+
       <h2>Box mode</h2>
       <p>
         <bloom-highlight class="title" type="box">
@@ -156,15 +165,6 @@ This is &lt;bloom-highlight class="primary"&gt;highlighted&lt;/bloom-highlight&g
       <p>
         With a semi-transparent <code>--bloom-bg</code>, adjacent line rects overlap due to padding, creating
         <bloom-highlight class="translucent">a naturally darker color at line junctions. This gives the highlight an organic, marker-on-paper feel where ink pools at the start of each new line. The effect is especially visible when the padding is generous and the fill color has low opacity.
-      </p>
-
-      <h2>Line mode</h2>
-      <p>
-        Line mode is the default and wraps each line of text individually.
-        <bloom-highlight class="primary">This means the highlight bends and breaks naturally across line boundaries,</bloom-highlight>
-        just like a real highlighter pen would on paper.
-        <bloom-highlight class="secondary">You can mix different variants in the same paragraph to draw attention to distinct ideas.</bloom-highlight>
-        Each variant is a plain CSS class, so they are easy to define and extend.
       </p>
 
       <h2>Gradient variant</h2>
