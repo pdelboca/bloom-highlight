@@ -126,24 +126,30 @@
       <p>
         <code>&lt;bloom-highlight&gt;</code> is a <bloom-highlight>custom element</bloom-highlight>
         that renders an SVG layer behind your text. A combination of
-        <bloom-highlight>feTurbulence and feDisplacementMap filters</bloom-highlight>
+        <b>feTurbulence</b> and <b>feDisplacementMap</b> filters
         creates the organic, marker-like wobble. All visual styling is driven by
         <bloom-highlight class="primary">CSS custom properties</bloom-highlight>,
         so you can define variants with plain CSS classes.
       </p>
 
       <h2>Usage</h2>
-      <pre><code>/* Define your variants in CSS */
+      <pre><code>&lt;script type="module" src="src/index.js"&gt;&lt;/script&gt;
+
+This is &lt;bloom-highlight&gt;highlighted text&lt;/bloom-highlight&gt; with default styles.</code></pre>
+
+      <p>This is <bloom-highlight> highlighted text</bloom-highlight> with default styles.</p>
+
+      <h2>Custom variants</h2>
+      <pre><code>/* Define variants by overriding CSS custom properties */
 bloom-highlight.primary {
   --bloom-bg: #bb66cc66;
   --bloom-scale: 3;
   --bloom-tip: round;
 }
 
-/* Then use them in HTML */
-&lt;script type="module" src="src/index.js"&gt;&lt;/script&gt;
-
 This is &lt;bloom-highlight class="primary"&gt;highlighted&lt;/bloom-highlight&gt; text.</code></pre>
+
+      <p>This is <bloom-highlight class="primary">highlighted</bloom-highlight> text.</p>
 
       <h2>Line mode</h2>
       <p>
@@ -164,7 +170,7 @@ This is &lt;bloom-highlight class="primary"&gt;highlighted&lt;/bloom-highlight&g
       <h2>Line mode with overlap</h2>
       <p>
         With a semi-transparent <code>--bloom-bg</code>, adjacent line rects overlap due to padding, creating
-        <bloom-highlight class="translucent">a naturally darker color at line junctions. This gives the highlight an organic, marker-on-paper feel where ink pools at the start of each new line. The effect is especially visible when the padding is generous and the fill color has low opacity.
+        <bloom-highlight class="translucent">a naturally darker color at line junctions. This gives the highlight an organic, marker-on-paper feel where ink pools in between lines. The effect is especially visible when the padding is generous and the fill color has low opacity.
       </p>
 
       <h2>Gradient variant</h2>
