@@ -98,6 +98,13 @@
         --bloom-scale: 4;
       }
 
+      bloom-highlight.translucent {
+        --bloom-bg: #7755cc55;
+        --bloom-padding-x: 12;
+        --bloom-padding-y: 10;
+        --bloom-scale: 4;
+      }
+
       bloom-highlight.underline {
         --bloom-bg: #4ecdc455;
         --bloom-padding-x: 4;
@@ -111,7 +118,7 @@
     <div class="container">
 
       <h1>
-        <bloom-highlight class="title">bloom-highlight</bloom-highlight>
+        <bloom-highlight>bloom-highlight</bloom-highlight>
       </h1>
       <p class="tagline">A vanilla Web Component that adds hand-drawn, squiggly highlight effects to any text — no framework required. Inspired by <a href="https://github.com/yeunoia/bloom">yeunoia/bloom</a>.</p>
 
@@ -141,29 +148,35 @@ This is &lt;bloom-highlight class="primary"&gt;highlighted&lt;/bloom-highlight&g
       <h2>Box mode</h2>
       <p>
         <bloom-highlight class="title" type="box">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+          In box mode the entire block is wrapped in a single highlight rect, making it ideal for callouts, hero sections, or featured quotes that span multiple lines of text.
         </bloom-highlight>
+      </p>
+
+      <h2>Line mode with overlap</h2>
+      <p>
+        With a semi-transparent <code>--bloom-bg</code>, adjacent line rects overlap due to padding, creating
+        <bloom-highlight class="translucent">a naturally darker color at line junctions. This gives the highlight an organic, marker-on-paper feel where ink pools at the start of each new line. The effect is especially visible when the padding is generous and the fill color has low opacity.
       </p>
 
       <h2>Line mode</h2>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        <bloom-highlight class="primary">Sed do eiusmod tempor incididunt ut labore</bloom-highlight>
-        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        <bloom-highlight class="secondary">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</bloom-highlight>
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Line mode is the default and wraps each line of text individually.
+        <bloom-highlight class="primary">This means the highlight bends and breaks naturally across line boundaries,</bloom-highlight>
+        just like a real highlighter pen would on paper.
+        <bloom-highlight class="secondary">You can mix different variants in the same paragraph to draw attention to distinct ideas.</bloom-highlight>
+        Each variant is a plain CSS class, so they are easy to define and extend.
       </p>
 
       <h2>Gradient variant</h2>
       <p>
-        Lorem ipsum dolor sit amet,
-        <bloom-highlight class="gradient">consectetur adipiscing elit sed do eiusmod</bloom-highlight>
-        tempor incididunt ut labore et dolore magna aliqua.
+        Instead of a flat color, you can set
+        <bloom-highlight class="gradient">--bloom-gradient to a pipe-separated list of color stops for a smooth linear gradient across each line.</bloom-highlight>
+        This works great for playful or decorative highlights.
       </p>
 
       <h2>Marker variant</h2>
       <p>
-        <bloom-highlight class="marker">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</bloom-highlight>
+        <bloom-highlight class="marker">Crank up the scale and padding for a bold, hand-drawn marker look that stands out on the page. Perfect for headings, annotations, or any text that needs to grab attention.</bloom-highlight>
       </p>
 
       <h2>CSS custom properties</h2>
