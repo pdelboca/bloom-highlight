@@ -17,23 +17,46 @@ Use directly via a `<script>` tag:
 ## Usage
 
 ```html
-<bloom-highlight>highlighted text</bloom-highlight>
+This is <bloom-highlight>highlighted</bloom-highlight> text.
 ```
 
 That's it. The text gets a wobbly yellow marker highlight by default.
+
+## Custom variants
+
+All visual styling is driven by CSS custom properties. Define variants by overriding them on the host element:
+
+```css
+bloom-highlight.primary {
+  --bloom-bg: #bb66cc66;
+  --bloom-scale: 3;
+  --bloom-tip: round;
+}
+```
+
+Then apply the class in HTML:
+
+```html
+<bloom-highlight class="primary">important text</bloom-highlight>
+```
 
 ## Attributes
 
 | Attribute | Default | Description |
 |---|---|---|
 | `type` | `"line"` | `"box"` wraps the whole element, `"line"` highlights per text line |
-| `tip` | `"square"` | `"round"` or `"square"` edge caps |
-| `background-color` | `#fdfd77` | Fill color |
-| `color` | `inherit` | Text color |
-| `scale` | `4` | Wobble intensity |
-| `padding-x` | `4` | Horizontal padding |
-| `padding-y` | `2` | Vertical padding |
-| `gradient` | — | Comma-separated color stops for a gradient fill |
+
+## CSS custom properties
+
+| Property | Default | Description |
+|---|---|---|
+| `--bloom-bg` | `#fdfd77` | Fill color |
+| `--bloom-color` | `inherit` | Text color |
+| `--bloom-scale` | `4` | Wobble intensity |
+| `--bloom-padding-x` | `4` | Horizontal padding |
+| `--bloom-padding-y` | `2` | Vertical padding |
+| `--bloom-tip` | `square` | `"round"` or `"square"` edge caps |
+| `--bloom-gradient` | — | Pipe-separated color stops for a gradient fill |
 
 ## Examples
 
@@ -41,16 +64,30 @@ That's it. The text gets a wobbly yellow marker highlight by default.
 <!-- Default highlight -->
 <bloom-highlight>some text</bloom-highlight>
 
-<!-- Box mode with custom color -->
-<bloom-highlight type="box" background-color="#bb66cc66" padding-x="14" padding-y="10">
+<!-- Strong wobble -->
+<bloom-highlight class="marker">wobbly</bloom-highlight>
+
+<!-- Box mode -->
+<bloom-highlight type="box" class="primary">
   A whole block of highlighted text.
 </bloom-highlight>
 
-<!-- Strong wobble, square tip -->
-<bloom-highlight scale="8" tip="square">wobbly</bloom-highlight>
+```
 
-<!-- Gradient fill -->
-<bloom-highlight gradient="#ff6b6b, #ffd93d, #6bcb77">rainbow</bloom-highlight>
+```css
+bloom-highlight.primary {
+  --bloom-bg: #bb66cc66;
+  --bloom-padding-x: 14;
+  --bloom-padding-y: 10;
+  --bloom-scale: 4;
+}
+
+bloom-highlight.marker {
+  --bloom-bg: #ff6b6b88;
+  --bloom-padding-x: 8;
+  --bloom-padding-y: 4;
+  --bloom-scale: 6;
+}
 ```
 
 ## How it works
