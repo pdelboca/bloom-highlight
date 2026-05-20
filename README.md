@@ -6,8 +6,6 @@ Zero dependencies. No build step. Just a `<script>` tag and a custom element.
 
 Demo: [https://pdelboca.me/bloom-highlight/](https://pdelboca.me/bloom-highlight/)
 
-Disclaimer: Migrated to Web Components using AI.
-
 ## Install
 
 Use directly via a `<script>` tag:
@@ -59,3 +57,6 @@ That's it. The text gets a wobbly yellow marker highlight by default.
 
 Renders an SVG layer behind your text inside a Shadow DOM. Uses `feTurbulence` → `feGaussianBlur` → `feDisplacementMap` SVG filters to create the organic, marker-like wobble.
 
+## AI Disclaimer
+
+The development of this Web Component has been assisted with AI tools.
