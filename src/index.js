@@ -27,6 +27,14 @@ function getSharedSheet() {
     const sheet = new CSSStyleSheet()
     sheet.replaceSync(`
       :host {
+        --bloom-bg: #fdfd77;
+        --bloom-color: inherit;
+        --bloom-scale: 4;
+        --bloom-padding-x: 4;
+        --bloom-padding-y: 2;
+        --bloom-tip: square;
+        /* --bloom-gradient is unset by default (no gradient) */
+
         position: relative;
         display: inline-block;
         width: fit-content;
@@ -59,6 +67,7 @@ function getSharedSheet() {
       .text-layer {
         position: relative;
         z-index: 1;
+        color: var(--bloom-color);
       }
     `)
     sharedSheet = sheet
@@ -72,16 +81,7 @@ function getSharedSheet() {
 
 class BloomHighlight extends HTMLElement {
   static get observedAttributes() {
-    return [
-      "type",
-      "tip",
-      "scale",
-      "background-color",
-      "gradient",
-      "color",
-      "padding-x",
-      "padding-y",
-    ]
+    return ["type"]
   }
 
   // Per-instance unique prefix for SVG IDs
@@ -100,6 +100,7 @@ class BloomHighlight extends HTMLElement {
   // Observers / scheduled work
   #resizeObserver = null
   #rafId = 0
+  #mutationObserver = null
 
   // -----------------------------------------------------------------------
   // Constructor
@@ -132,7 +133,7 @@ class BloomHighlight extends HTMLElement {
   }
 
   // -----------------------------------------------------------------------
-  // Attribute accessors (with defaults matching the React version)
+  // CSS custom property accessors
   // -----------------------------------------------------------------------
 
   get #type() {
@@ -140,36 +141,32 @@ class BloomHighlight extends HTMLElement {
   }
 
   get #tip() {
-    return this.getAttribute("tip") ?? "square"
+    return getComputedStyle(this).getPropertyValue("--bloom-tip").trim() || "square"
   }
 
   get #scale() {
-    const v = this.getAttribute("scale")
-    return v !== null ? Number(v) : 4
+    const v = getComputedStyle(this).getPropertyValue("--bloom-scale").trim()
+    return v ? Number(v) : 4
   }
 
   get #backgroundColor() {
-    return this.getAttribute("background-color") ?? "#fdfd77"
+    return getComputedStyle(this).getPropertyValue("--bloom-bg").trim() || "#fdfd77"
   }
 
   get #gradient() {
-    const raw = this.getAttribute("gradient")
+    const raw = getComputedStyle(this).getPropertyValue("--bloom-gradient").trim()
     if (!raw) return null
-    return raw.split(",").map((s) => s.trim())
-  }
-
-  get #color() {
-    return this.getAttribute("color") ?? "inherit"
+    return raw.split("|").map((s) => s.trim()).filter((s) => s.length > 0)
   }
 
   get #paddingX() {
-    const v = this.getAttribute("padding-x")
-    return v !== null ? Number(v) : 4
+    const v = getComputedStyle(this).getPropertyValue("--bloom-padding-x").trim()
+    return v ? Number(v) : 4
   }
 
   get #paddingY() {
-    const v = this.getAttribute("padding-y")
-    return v !== null ? Number(v) : 2
+    const v = getComputedStyle(this).getPropertyValue("--bloom-padding-y").trim()
+    return v ? Number(v) : 2
   }
 
   // -----------------------------------------------------------------------
@@ -177,7 +174,6 @@ class BloomHighlight extends HTMLElement {
   // -----------------------------------------------------------------------
 
   connectedCallback() {
-    this.#textLayer.style.color = this.#color
     this.#slot.addEventListener("slotchange", this.#onSlotChange)
     this.#setupObservers()
   }
@@ -191,13 +187,8 @@ class BloomHighlight extends HTMLElement {
     if (oldVal === newVal) return
 
     if (name === "type") {
-      // Observers depend on the mode – tear down & rebuild
       this.#teardownObservers()
       this.#setupObservers()
-    }
-
-    if (name === "color") {
-      this.#textLayer.style.color = this.#color
     }
 
     this.#render()
@@ -208,6 +199,7 @@ class BloomHighlight extends HTMLElement {
   // -----------------------------------------------------------------------
 
   #setupObservers() {
+    // ResizeObserver for layout changes
     if (this.#type === "box") {
       this.#resizeObserver = new ResizeObserver(([entry]) => {
         const { width, height } = entry.contentRect
@@ -237,12 +229,33 @@ class BloomHighlight extends HTMLElement {
       // Initial calculation (deferred so the DOM is laid out)
       this.#scheduleLineCalculation()
     }
+
+    // MutationObserver for class/style changes (CSS custom property re-render)
+    this.#mutationObserver = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (
+          mutation.type === "attributes" &&
+          (mutation.attributeName === "class" || mutation.attributeName === "style")
+        ) {
+          this.#render()
+          return
+        }
+      }
+    })
+    this.#mutationObserver.observe(this, {
+      attributes: true,
+      attributeFilter: ["class", "style"],
+    })
   }
 
   #teardownObservers() {
     if (this.#resizeObserver) {
       this.#resizeObserver.disconnect()
       this.#resizeObserver = null
+    }
+    if (this.#mutationObserver) {
+      this.#mutationObserver.disconnect()
+      this.#mutationObserver = null
     }
     window.removeEventListener("resize", this.#onWindowResize)
     cancelAnimationFrame(this.#rafId)

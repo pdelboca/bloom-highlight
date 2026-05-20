@@ -56,16 +56,62 @@
         line-height: 1.7;
         overflow-x: auto;
       }
+
+      /* ---------------------------------------------------------------
+       * Variant classes – this is where applications define their
+       * highlight styles using CSS custom properties.
+       * --------------------------------------------------------------- */
+
+      bloom-highlight.primary {
+        --bloom-bg: #bb66cc66;
+        --bloom-padding-x: 4;
+        --bloom-padding-y: 2;
+        --bloom-scale: 3;
+        --bloom-tip: round;
+      }
+
+      bloom-highlight.secondary {
+        --bloom-bg: #4ecdc455;
+        --bloom-scale: 2;
+        --bloom-tip: square;
+      }
+
+      bloom-highlight.marker {
+        --bloom-bg: #ff6b6b88;
+        --bloom-padding-x: 8;
+        --bloom-padding-y: 4;
+        --bloom-scale: 6;
+      }
+
+      bloom-highlight.gradient {
+        --bloom-gradient: #ff9a9e | #fad0c4 | #ffecd2;
+        --bloom-padding-x: 6;
+        --bloom-padding-y: 3;
+        --bloom-scale: 3;
+        --bloom-tip: round;
+      }
+
+      bloom-highlight.title {
+        --bloom-bg: #7755cc55;
+        --bloom-padding-x: 14;
+        --bloom-padding-y: 10;
+        --bloom-scale: 4;
+      }
+
+      bloom-highlight.underline {
+        --bloom-bg: #4ecdc455;
+        --bloom-padding-x: 4;
+        --bloom-padding-y: 2;
+        --bloom-scale: 1;
+        --bloom-tip: square;
+      }
     </style>
   </head>
   <body>
     <div class="container">
 
       <h1>
-        <bloom-highlight
-          padding-x="10"
-          padding-y="5"
-        >bloom-highlight</bloom-highlight>
+        <bloom-highlight class="title">bloom-highlight</bloom-highlight>
       </h1>
       <p class="tagline">A vanilla Web Component that adds hand-drawn, squiggly highlight effects to any text — no framework required. Inspired by <a href="https://github.com/yeunoia/bloom">yeunoia/bloom</a>.</p>
 
@@ -74,17 +120,27 @@
         <code>&lt;bloom-highlight&gt;</code> is a <bloom-highlight>custom element</bloom-highlight>
         that renders an SVG layer behind your text. A combination of
         <bloom-highlight>feTurbulence and feDisplacementMap filters</bloom-highlight>
-        creates the organic, marker-like wobble. Drop the tag around any inline content and it just works — Shadow DOM keeps styles isolated.
+        creates the organic, marker-like wobble. All visual styling is driven by
+        <bloom-highlight class="primary">CSS custom properties</bloom-highlight>,
+        so you can define variants with plain CSS classes.
       </p>
 
       <h2>Usage</h2>
-      <pre><code>&lt;script type="module" src="src/index.js"&gt;&lt;/script&gt;
+      <pre><code>/* Define your variants in CSS */
+bloom-highlight.primary {
+  --bloom-bg: #bb66cc66;
+  --bloom-scale: 3;
+  --bloom-tip: round;
+}
 
-This is &lt;bloom-highlight&gt;your highlighted text&lt;/bloom-highlight&gt; here.</code></pre>
+/* Then use them in HTML */
+&lt;script type="module" src="src/index.js"&gt;&lt;/script&gt;
+
+This is &lt;bloom-highlight class="primary"&gt;highlighted&lt;/bloom-highlight&gt; text.</code></pre>
 
       <h2>Box mode</h2>
       <p>
-        <bloom-highlight background-color="#7755cc55" padding-x="14" padding-y="10" scale="4">
+        <bloom-highlight class="title" type="box">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
         </bloom-highlight>
       </p>
@@ -92,39 +148,47 @@ This is &lt;bloom-highlight&gt;your highlighted text&lt;/bloom-highlight&gt; her
       <h2>Line mode</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        <bloom-highlight>Sed do eiusmod tempor incididunt ut labore</bloom-highlight>
+        <bloom-highlight class="primary">Sed do eiusmod tempor incididunt ut labore</bloom-highlight>
         et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        <bloom-highlight type="line" background-color="#7755cc55" padding-x="4" padding-y="2" scale="3" tip="round">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</bloom-highlight>
+        <bloom-highlight class="secondary">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</bloom-highlight>
         Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </p>
 
-      <h2>Attributes</h2>
+      <h2>Gradient variant</h2>
       <p>
-        <bloom-highlight type="line" background-color="#bb66cc66" padding-x="4" padding-y="2" scale="1" tip="square">type</bloom-highlight> —
-        <code>"box"</code> or <code>"line"</code> (default) for per-line highlights.<br>
+        Lorem ipsum dolor sit amet,
+        <bloom-highlight class="gradient">consectetur adipiscing elit sed do eiusmod</bloom-highlight>
+        tempor incididunt ut labore et dolore magna aliqua.
+      </p>
 
-        <bloom-highlight type="line" background-color="#bb66cc66" padding-x="4" padding-y="2" scale="1" tip="square">scale</bloom-highlight> —
-        Wobble intensity (default <code>4</code>).<br>
+      <h2>Marker variant</h2>
+      <p>
+        <bloom-highlight class="marker">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</bloom-highlight>
+      </p>
 
-        <bloom-highlight type="line" background-color="#bb66cc66" padding-x="4" padding-y="2" scale="1" tip="square">tip</bloom-highlight> —
-        <code>"round"</code> or <code>"square"</code> (default) edge caps.<br>
-
-        <bloom-highlight type="line" background-color="#bb66cc66" padding-x="4" padding-y="2" scale="1" tip="square">background-color</bloom-highlight> —
+      <h2>CSS custom properties</h2>
+      <p>
+        <bloom-highlight class="underline">--bloom-bg</bloom-highlight> —
         Fill color (default <code>#fdfd77</code>).<br>
 
-        <bloom-highlight type="line" background-color="#bb66cc66" padding-x="4" padding-y="2" scale="1" tip="square">padding-x / padding-y</bloom-highlight> —
+        <bloom-highlight class="underline">--bloom-color</bloom-highlight> —
+        Text color (default <code>inherit</code>).<br>
+
+        <bloom-highlight class="underline">--bloom-scale</bloom-highlight> —
+        Wobble intensity (default <code>4</code>).<br>
+
+        <bloom-highlight class="underline">--bloom-tip</bloom-highlight> —
+        <code>"round"</code> or <code>"square"</code> (default) edge caps.<br>
+
+        <bloom-highlight class="underline">--bloom-padding-x / --bloom-padding-y</bloom-highlight> —
         Extra space around the text.<br>
 
-        <bloom-highlight type="line" background-color="#bb66cc66" padding-x="4" padding-y="2" scale="1" tip="square">gradient</bloom-highlight> —
-        Comma-separated color stops for a gradient fill.<br>
-
-        <bloom-highlight type="line" background-color="#bb66cc66" padding-x="4" padding-y="2" scale="1" tip="square">color</bloom-highlight> —
-        Text color (default <code>inherit</code>).
+        <bloom-highlight class="underline">--bloom-gradient</bloom-highlight> —
+        Pipe-separated color stops for a gradient fill (e.g. <code>#ff9a9e | #fad0c4</code>).
       </p>
 
       <p class="note">Zero dependencies. No build step. Just vanilla Web Components. See the <a href="https://github.com/pdelboca/bloom-highlight">source code</a>.</p>
 
     </div>
-
   </body>
 </html>
